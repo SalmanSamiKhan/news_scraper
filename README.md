@@ -22,35 +22,6 @@ This Python script asynchronously scrapes article data from the New Age BD websi
 2. Install the required packages:
    ```bash
    pip install aiohttp beautifulsoup4 pandas openpyxl
-
-
-
-
-
-# Web Scraper for New Age BD Articles
-
-This Python script asynchronously scrapes article data from the New Age BD website's archive for a specified date. It extracts the title, description, and link of each article on the archive page, then retrieves the full title and content from each article's individual page. The data is saved to an Excel file.
-
-## Features
-
-- Asynchronous requests for faster data retrieval
-- Logging of each step to monitor progress and errors
-- Saves output as an Excel file with all article details
-
-## Requirements
-
-- Python 3.8+
-- `aiohttp` - For asynchronous HTTP requests
-- `BeautifulSoup4` - For parsing HTML content
-- `pandas` - For data manipulation and saving to Excel
-- `openpyxl` - For saving Excel files
-
-## Installation
-
-1. Clone the repository or download the script.
-2. Install the required packages:
-   ```bash
-   pip install aiohttp beautifulsoup4 pandas openpyxl
    ```
 
 ## Usage
