@@ -1,60 +1,119 @@
-# Web Scraper for New Age BD Articles
+# New Age Archive Article Scraper
 
-This Python script asynchronously scrapes article data from the New Age BD website's archive for a specified date. It extracts the title, description, and link of each article on the archive page, then retrieves the full title and content from each article's individual page. The data is saved to an Excel file.
+This Python script allows you to scrape articles from the New Age Bangladesh website archive. It fetches article links for a specified date (defaulting to today’s date) and retrieves the content of each article, saving the data in a user-defined file format (`CSV`, `XLSX`, or `TXT`).
+
+## [New Age Archive Link](https://www.newagebd.net/archive?)
 
 ## Features
-
-- Asynchronous requests for faster data retrieval
-- Logging of each step to monitor progress and errors
-- Saves output as an Excel file with all article details
+- Scrape articles from the New Age archive for a specific date (defaults to today's date).
+- Retrieve article titles and content.
+- Handle concurrent requests efficiently with a configurable concurrency limit.
+- Save the output in multiple formats: `CSV`, `XLSX`, or `TXT`.
+- Log scraping details for debugging and monitoring.
 
 ## Requirements
 
-- Python 3.8+
-- `aiohttp` - For asynchronous HTTP requests
-- `BeautifulSoup4` - For parsing HTML content
-- `pandas` - For data manipulation and saving to Excel
-- `openpyxl` - For saving Excel files
+Make sure you have the following Python dependencies installed:
+
+- Python 3.7+
+- `aiohttp`: For asynchronous HTTP requests
+- `beautifulsoup4`: For HTML parsing and extracting article data
+- `pandas`: For saving data to various file formats
+- `openpyxl` (optional, only if `XLSX` format is chosen for output)
+
+### Install Dependencies
+
+To install the required dependencies, use the following `pip` command:
+
+```bash
+pip install aiohttp beautifulsoup4 pandas openpyxl
+```
 
 ## Installation
 
-1. Clone the repository or download the script.
-2. Install the required packages:
+1. Clone this repository to your local machine or download the script:
+
    ```bash
-   pip install aiohttp beautifulsoup4 pandas openpyxl
+   git clone https://github.com/SalmanSamiKhan/news_scraper.git
+   cd news_scraper
    ```
+
+2. Install the required Python dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Ensure you have Python 3.7+ installed on your machine.
 
 ## Usage
 
-1. Set the target date by changing the `date` variable in the script (format: `YYYY-MM-DD`).
-2. Run the script:
-   ```bash
-   python your_script_name.py
-   ```
-3. The output Excel file will be saved with a filename based on the target date (e.g., `2024-08-06_articles_full_content.xlsx`).
+To run the script, use the following command in your terminal:
 
-## Logging
-
-The script logs each step to track which articles were successfully fetched and logs any errors encountered during scraping.
-
-## Timing
-
-The script displays the total time taken for scraping at the end.
-
-## Example Output
-
-The output file contains the following columns:
-- **Title**: Full title of the article
-- **Content**: Full content of the article
-- **Link**: Direct link to the article
-
-## Notes
-
-- Ensure a stable internet connection for smooth execution.
-- The target date should be in the format `YYYY-MM-DD`.
-- This script scrapes public data; check the website's `robots.txt` and terms of service before large-scale scraping.
+```bash
+python scraper.py <date> [options]
 ```
 
----
+Where `<date>` is the target date in the `YYYY-MM-DD` format. If no date is provided, today's date will be used by default.
 
-This `README.md` provides clear instructions on installation, usage, features, logging, and timing. The script and documentation together form a complete solution for asynchronously scraping articles.
+### Arguments
+
+- `date` (optional): The date to scrape articles from, in `YYYY-MM-DD` format. For example: `2024-10-20`. If not provided, today's date will be used.
+- `-c, --concurrency` (optional): Specify the maximum number of concurrent requests. Default is `20`. Example: `-c 10` limits the concurrency to 10 requests.
+- `-o, --output` (optional): Choose the output file format. Valid options are `csv`, `xlsx`, or `txt`. Default is `csv`. Example: `-o xlsx` saves the data as an Excel file.
+
+### Examples
+
+1. **Scrape articles for today's date and save as CSV (default behavior):**
+
+   ```bash
+   python scraper.py
+   ```
+
+2. **Scrape articles for a specific date with a concurrency limit of 10 and save as an Excel file:**
+
+   ```bash
+   python scraper.py 2024-08-05 -c 10 -o xlsx
+   ```
+
+3. **Scrape articles for a specific date and save as a tab-separated text file:**
+
+   ```bash
+   python scraper.py 2024-08-05 -o txt
+   ```
+
+### Output
+
+The script generates two directories:
+
+- **Data Directory**: Contains the scraped articles saved in the chosen format.
+- **Log Directory**: Contains logs of the scraping process, useful for debugging and monitoring.
+
+#### File Structure:
+
+```
+data/
+    <date>/
+        <date>_articles.<output_extension>
+log/
+    <date>/
+        <date>_logs.log
+```
+
+Where:
+
+
+- `<date>` is the specified date or today's date.
+- `<output_extension>` is the chosen output file format (e.g., `csv`, `xlsx`, `txt`).
+
+
+## Script Flow
+
+1. The script fetches article links from the New Age archive page for the specified date.
+2. It then fetches the content of each article concurrently.
+3. Finally, the scraped data is saved into a file in the desired format.
+
+## Error Handling
+
+- The script will retry fetching each URL up to 3 times if the request fails.
+- Any issues will be logged in the `log/<date>/<date>_logs.log` file.

@@ -162,5 +162,5 @@ cython_debug/
 #.idea/
 
 log/
+data/
 news_env/
-scraped_data/
